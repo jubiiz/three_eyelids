@@ -1,0 +1,4 @@
+(executable
+ (public_name server)
+ (name server_main)
+ (libraries shared))
