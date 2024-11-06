@@ -1,24 +1,10 @@
-exception NotImplemented;;
-
-type sequence_number = {
-  increment: unit -> unit;
-  get: unit -> int;
-  (*equals: int -> bool;*)
-};;
-
-let create_sequence_number () =
-  let counter = ref 0 in
-  {
-  increment = (fun () -> counter := (1 - !counter));
-  get = (fun () -> !counter);
-  (*equals = (fun x -> x = !counter);*)
-  }
-;;
-
-let the_sequence_number = create_sequence_number ();;
-
+let the_sequence_number = Shared.Sequence_number.create_sequence_number ();;
 let rdt_send (msg: string): unit = 
-  raise NotImplemented
+    let seq_num = the_sequence_number.get () in
+    let _ = the_sequence_number.Shared.Sequence_number.increment () in
+    let _ = print_endline ("Sending message: " ^ msg ^ " with sequence number: " ^ string_of_int seq_num) in
+    the_sequence_number.increment ()
+    
   (*let a_request_packet = form_packet input in*)
 	(* TODO IMPLEMENT *)
 ;;

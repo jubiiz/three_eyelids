@@ -7,6 +7,11 @@ Ocaml implementation of a stop-and-wait Reliable Data Transfer (RDT) protocol.
 dune build
 ```
 
+## Run the tests
+```
+dune runtest
+```
+
 ## Run the client
 ```
 dune exec client
