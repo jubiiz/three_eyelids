@@ -25,6 +25,7 @@ let expected_bytes_hello = Bytes.concat Bytes.empty [Bytes.of_string ("0"); Byte
 (* check that the bytes packet is the same as the expected bytes packet *)
 assert (hello_packet_as_bytes = expected_bytes_hello);;
 
+let msg_and_header = Bytes.concat Bytes.empty [Bytes.of_string("0"); Bytes.of_string("hello")];;
 (* get the checksum of message=hello with sequence number 0*)
 let checksum = get_checksum msg_and_header;;
 

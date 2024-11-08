@@ -7,7 +7,7 @@ let get_msg_length (header : bytes) : int =
 The reason we do packet option is because should there be an error with the parsing that means something went wrong in the rdt_send
 So in the case we get an error we return None to indicate that no proper Bytes was sent. If we can successfully parse the Bytes
 then we return Some packet*)
-let unpack (msg_bytes : bytes) : Create_packet.packet option =
+let unpack (msg_bytes : bytes) : Packet_type.packet option =
   try (
     (* since we know the seq_num is only ever 0 or 1, we know it will always be the first byte and will have length 1,
      so we can easily extract the seq_num*)
@@ -39,7 +39,7 @@ let unpack (msg_bytes : bytes) : Create_packet.packet option =
 (* this function takes the parsed packet and then reconstructs the Bytes with the information it parsed without the checksum.
 It then calculates the Bytes checksum. It then compares it to the parsed checksum to make sure they are the same. If they are not, we know 
 that there was an error during rdt_send and then we will have to discard this packet*)
-let compare_checksums (packet : Create_packet.packet) : bool =
+let compare_checksums (packet : Packet_type.packet) : bool =
   let rebuilt = Bytes.concat Bytes.empty [Bytes.of_string (string_of_int packet.seq_num); Bytes.of_string (string_of_int packet.msg_length); Bytes.make 1 (Char.chr 0); packet.data] in
   let calculated_checksum = Create_packet.get_checksum rebuilt in
   calculated_checksum = packet.checksum;;
