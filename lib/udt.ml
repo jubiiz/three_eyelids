@@ -12,13 +12,14 @@ type response = {
   sender_addr: Unix.sockaddr;
 }
 
-let server_address = Unix.inet_addr_of_string "127.0.0.1"
+let client_address = Unix.inet_addr_of_string ""
+let server_address = Unix.inet_addr_of_string ""
 let server_port = 9000
 
 let get_server_socket (): Lwt_unix.file_descr Lwt.t = 
   let open Lwt_unix in
   let socket = socket PF_INET SOCK_DGRAM 0 in
-  let%lwt _ = bind socket (ADDR_INET (server_address, server_port)) in
+  let%lwt _ = bind socket (ADDR_INET (client_address, server_port)) in
   Lwt.return socket
 let server_socket = Lwt_main.run @@ get_server_socket ()
 
