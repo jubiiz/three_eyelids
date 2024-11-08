@@ -1,35 +1,19 @@
+open Shared.Packet;;
+
 let the_sequence_number = Shared.Sequence_number.create_sequence_number ();;
 
-(*
-type checksum = int;;
-
-type packet = {
-  seq_num: int;
-  data: string;
-  checksum: int;
-}
-
-let get_checksum packet = 
-  magic
-
-let form_packet input = 
-  let seq_num = the_sequence_number.get () in
-  (seq_num, input)
-
-
-let binary_of_packet = 
-  something somethine
-
-*)
-
-let rdt_send (msg: string): unit = 
+let rdt_send (msg: string): unit =
     let seq_num = the_sequence_number.get () in
-    (* let a_request_packet = form_packet input in*)
-    (*  *)
+
+    let packet_to_send = form_packet msg seq_num in
+    let packet_as_bytes = packet_as_bytes packet_to_send in
+
+    (* this line just to make sure packet is correct *)
+    let _ = print_endline (Bytes.to_string packet_as_bytes) in
+    let _ = print_endline (Bytes.to_string((Bytes.of_string "hello"))) in
+let _ = print_endline (string_of_int (Bytes.length (Bytes.of_string "11"))) in
     let _ = print_endline ("Sending message: " ^ msg ^ " with sequence number: " ^ string_of_int seq_num) in
     the_sequence_number.increment ()
-    
-	(* TODO IMPLEMENT *)
 ;;
 
 let rec client () = 
