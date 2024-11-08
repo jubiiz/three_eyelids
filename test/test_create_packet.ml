@@ -1,4 +1,4 @@
-open Shared.Packet;;
+open Shared.Create_packet;;
 open Shared.Sequence_number;;
 
 let the_sequence_number = create_sequence_number ();;

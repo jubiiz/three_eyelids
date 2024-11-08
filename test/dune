@@ -1,4 +1,4 @@
 (tests
- (names test_sequence_number sample_test test_create_packet)
+ (names test_sequence_number sample_test test_create_packet test_parse_packet)
  (libraries shared)
  )
