@@ -21,12 +21,15 @@ let binary_of_packet =
   something somethine
 
 *)
+open Shared
+
 
 let rdt_send (msg: string): unit = 
     let seq_num = the_sequence_number.get () in
     (* let a_request_packet = form_packet input in*)
     (*  *)
     let _ = print_endline ("Sending message: " ^ msg ^ " with sequence number: " ^ string_of_int seq_num) in
+    let _ = Udt.send (Bytes.of_string msg) (String.length msg) Udt.client_socket in
     the_sequence_number.increment ()
     
 	(* TODO IMPLEMENT *)
