@@ -29,7 +29,8 @@ let rdt_send (msg: string): unit =
     (* let a_request_packet = form_packet input in*)
     (*  *)
     let _ = print_endline ("Sending message: " ^ msg ^ " with sequence number: " ^ string_of_int seq_num) in
-    let _ = Udt.send (Bytes.of_string msg) (String.length msg) Udt.client_socket in
+    let target_sockaddr = (Unix.ADDR_INET (Udt.server_address, Udt.server_port)) in
+    let _ = Udt.send (Bytes.of_string msg) (String.length msg) Udt.client_socket target_sockaddr in
     the_sequence_number.increment ()
     
 	(* TODO IMPLEMENT *)

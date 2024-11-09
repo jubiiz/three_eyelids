@@ -2,7 +2,7 @@ open Shared;;
 
 let the_sequence_number = Sequence_number.create_sequence_number ();;
 
-let rdt_recv: unit = 
+let rdt_recv (): unit = 
     let seq_num = the_sequence_number.get () in
     let response = Udt.recv Udt.server_socket in
     the_sequence_number.increment (); print_endline ("Received message: " ^ (Bytes.to_string response.data));
@@ -13,7 +13,7 @@ let rdt_recv: unit =
 ;;
 
 let rec server () = 
-  let _ = rdt_recv in
+  let _ = rdt_recv () in
   server ()
 ;;
 
