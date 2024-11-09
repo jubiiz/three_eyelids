@@ -13,6 +13,9 @@ type response = {
 }
 let server_port = 9000
 
+let client_address = Unix.inet_addr_of_string @@ Sys.getenv "CLIENT_ADDRESS" 
+let server_address = Unix.inet_addr_of_string @@ Sys.getenv "SERVER_ADDRESS" 
+
 let get_server_socket (): Lwt_unix.file_descr Lwt.t = 
   let open Lwt_unix in
   let socket = socket PF_INET SOCK_DGRAM 0 in
