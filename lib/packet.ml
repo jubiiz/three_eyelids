@@ -48,7 +48,7 @@ let packet_of_bytes (packet_bytes: bytes) : packet =
     print_endline("Packet bytes length: " ^ (string_of_int (Bytes.length packet_bytes)));
 
     (* Check that data is parseable before parsing *)
-    if data_length = ((Bytes.length packet_bytes) - 3) then  
+    if data_length <= ((Bytes.length packet_bytes) - 3) then  
         let data = Bytes.sub packet_bytes 3 data_length in
         {seq_num; data_length; checksum; data}    
     else raise Invalid_packet_bytes
