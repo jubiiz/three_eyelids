@@ -5,6 +5,7 @@ let server_socket = Lwt_main.run @@ Udt.get_server_socket ()
 let rdt_recv (): unit = 
     let response = Udt.recv server_socket in
     let packet_bytes = response.data in
+    print_endline ("Received packet with bytes: " ^ (Bytes.to_string packet_bytes));
     let packet = Packet.packet_of_bytes packet_bytes in
     let checksum = Packet.calculate_checksum_from_packet packet in
     if checksum != packet.checksum then
