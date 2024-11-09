@@ -1,4 +1,4 @@
 (tests
- (names test_sequence_number sample_test)
+ (names test_sequence_number test_packet)
  (libraries shared)
  )
