@@ -1,16 +1,20 @@
 open Shared;;
 
-let the_sequence_number = Sequence_number.create_sequence_number ();;
 let server_socket = Lwt_main.run @@ Udt.get_server_socket ()
 
 let rdt_recv (): unit = 
-    let seq_num = the_sequence_number.get () in
     let response = Udt.recv server_socket in
-    the_sequence_number.increment (); print_endline ("Received message: " ^ (Bytes.to_string response.data));
-    ignore seq_num
-    
-  (*let a_request_packet = form_packet input in*)
-	(* TODO IMPLEMENT *)
+    let packet_bytes = response.data in
+    let packet = Packet.packet_of_bytes packet_bytes in
+    let checksum = Packet.calculate_checksum_from_packet packet in
+    if checksum != packet.checksum then
+        print_endline "Checksum failed, dropping packet"
+    else
+      print_endline ("Received packet with: ");
+      print_endline ("SEQ NUM: " ^ (string_of_int packet.seq_num));
+      print_endline ("DATA LENGTH: " ^ (string_of_int packet.data_length));
+      print_endline ("CHECKSUM: " ^ (string_of_int packet.checksum));
+      print_endline ("DATA: " ^ (Bytes.to_string packet.data) ^ "\n")
 ;;
 
 let rec server () = 

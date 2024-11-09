@@ -33,9 +33,9 @@ let recv (socket: Lwt_unix.file_descr): response =
   let (len, sender_addr) = Lwt_main.run @@ Lwt_unix.recvfrom socket buffer 0 1024 [] in
   {len=len; data=buffer; sender_addr=sender_addr}
 
-let send (data: Bytes.t) (len: int) (sending_socket: Lwt_unix.file_descr) (target_sockaddr: Unix.sockaddr): int = 
+let send (data: Bytes.t) (sending_socket: Lwt_unix.file_descr) (target_sockaddr: Unix.sockaddr): int = 
   Lwt_main.run @@
-   Lwt_unix.sendto sending_socket data 0 len [] target_sockaddr 
+   Lwt_unix.sendto sending_socket data 0 (Bytes.length data) [] target_sockaddr 
   
 
 

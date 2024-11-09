@@ -1,3 +1,5 @@
+set_ips.sh
+
 # misc
 *.annot
 *.cmo
