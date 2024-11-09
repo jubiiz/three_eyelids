@@ -14,6 +14,12 @@ dune build
 dune runtest
 ```
 
+## Export your IP addresses
+```
+export CLIENT_ADDRESS='YOUR.IP.ADDR.ESS'
+export SERVER_ADDRESS='YOUR.IP.ADDR.ESS'
+```
+
 ## Run the client
 ```
 dune exec client
