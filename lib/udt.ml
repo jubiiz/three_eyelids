@@ -19,16 +19,14 @@ let server_address = Unix.inet_addr_of_string @@ Sys.getenv "SERVER_ADDRESS"
 let get_server_socket (): Lwt_unix.file_descr Lwt.t = 
   let open Lwt_unix in
   let socket = socket PF_INET SOCK_DGRAM 0 in
-  let%lwt _ = bind socket (ADDR_INET (Ip_addresses.server_address, server_port)) in
+  let%lwt _ = bind socket (ADDR_INET (server_address, server_port)) in
   Lwt.return socket
-let server_socket = Lwt_main.run @@ get_server_socket ()
 
 let get_client_socket () = 
   let open Lwt_unix in
   let socket = socket PF_INET SOCK_DGRAM 0 in
   Lwt.return socket
 
-let client_socket = Lwt_main.run @@ get_client_socket ()
 
 let recv (socket: Lwt_unix.file_descr): response = 
   let buffer = Bytes.create 1024 in

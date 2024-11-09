@@ -23,14 +23,15 @@ let binary_of_packet =
 *)
 open Shared
 
+let client_socket = Lwt_main.run @@ Udt.get_client_socket ()
 
 let rdt_send (msg: string): unit = 
     let seq_num = the_sequence_number.get () in
     (* let a_request_packet = form_packet input in*)
     (*  *)
     let _ = print_endline ("Sending message: " ^ msg ^ " with sequence number: " ^ string_of_int seq_num) in
-    let target_sockaddr = (Unix.ADDR_INET (Ip_addresses.server_address, Udt.server_port)) in
-    let _ = Udt.send (Bytes.of_string msg) (String.length msg) Udt.client_socket target_sockaddr in
+    let target_sockaddr = (Unix.ADDR_INET (Udt.server_address, Udt.server_port)) in
+    let _ = Udt.send (Bytes.of_string msg) (String.length msg) client_socket target_sockaddr in
     the_sequence_number.increment ()
     
 	(* TODO IMPLEMENT *)

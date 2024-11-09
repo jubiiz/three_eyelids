@@ -1,10 +1,11 @@
 open Shared;;
 
 let the_sequence_number = Sequence_number.create_sequence_number ();;
+let server_socket = Lwt_main.run @@ Udt.get_server_socket ()
 
 let rdt_recv (): unit = 
     let seq_num = the_sequence_number.get () in
-    let response = Udt.recv Udt.server_socket in
+    let response = Udt.recv server_socket in
     the_sequence_number.increment (); print_endline ("Received message: " ^ (Bytes.to_string response.data));
     ignore seq_num
     
