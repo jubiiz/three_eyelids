@@ -1,2 +1,4 @@
 (library
- (name shared))
+ (name shared)
+ (libraries lwt lwt.unix)
+ (preprocess (pps lwt_ppx)))
