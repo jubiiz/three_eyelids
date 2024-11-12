@@ -4,6 +4,13 @@ Ocaml implementation of a stop-and-wait Reliable Data Transfer (RDT) protocol.
 Notice: large parts of the UDP helper code are inspired from:
 https://medium.com/@aryangodara_19887/udp-client-and-server-in-ocaml-e203116a997c
 
+## Imports
+```
+opam install lwt
+opam install logs
+opam install lwt_ppx
+```
+
 ## Build
 ```
 dune build
