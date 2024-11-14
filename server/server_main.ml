@@ -15,7 +15,10 @@ let nack_packet (seq_num: int) (client_addr: Unix.sockaddr) =
 
 let rdt_recv (): string= 
     let rec rdt_recv_part (parts: string list) (expected_seq_num: int): string = 
-        let response = Udt.recv server_socket in
+        let response_option = Udt.recv server_socket 0.0 in
+        match response_option with 
+        | None -> rdt_recv_part parts expected_seq_num
+        | Some response ->
         let packet_bytes = response.data in
         let _ = print_endline ("Received packet with bytes: " ^ (Bytes.to_string packet_bytes)) in
         let packet = Packet.packet_of_bytes packet_bytes in

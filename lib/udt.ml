@@ -28,10 +28,15 @@ let get_client_socket () =
   Lwt.return socket
 
 
-let recv (socket: Lwt_unix.file_descr): response = 
+let recv (socket: Lwt_unix.file_descr) (timeout_seconds: float): response option = 
+  (* Timeout of 0 means no timeout *)
   let buffer = Bytes.create 1024 in
-  let (len, sender_addr) = Lwt_main.run @@ Lwt_unix.recvfrom socket buffer 0 1024 [] in
-  {len=len; data=buffer; sender_addr=sender_addr}
+  let recv' () = Lwt_unix.recvfrom socket buffer 0 1024 [] in
+  let recv_promise = if timeout_seconds > 0.0 then Lwt_unix.with_timeout timeout_seconds recv' else recv'() in
+  try 
+    let (len, sender_addr) = Lwt_main.run recv_promise in
+    Some {len=len; data=buffer; sender_addr=sender_addr}
+  with Lwt_unix.Timeout -> None
 
 let send (data: Bytes.t) (sending_socket: Lwt_unix.file_descr) (target_sockaddr: Unix.sockaddr): int = 
   Lwt_main.run @@

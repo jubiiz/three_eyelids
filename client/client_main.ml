@@ -2,6 +2,7 @@ open Shared;;
 
 let client_socket = Lwt_main.run @@ Udt.get_client_socket ();;
 let server_sockaddr = Unix.ADDR_INET (Udt.server_address, Udt.server_port);;
+let timeout_seconds = 2.0;;
 
 let explode (msg: string) = List.init (String.length msg) (fun i -> String.make 1 (String.get msg i));;
 
@@ -14,7 +15,11 @@ let rdt_send (msg: string): unit =
             let _ = Udt.send packet_bytes client_socket server_sockaddr in
             rdt_receive_ack msg_parts seq_num
     and rdt_receive_ack (msg_parts : string list) (seq_num: int) = 
-      let response = Udt.recv client_socket in
+      let response_option = Udt.recv client_socket timeout_seconds in
+      match response_option with
+      | None -> (print_endline ("Error, retrying send of packet with seq num " ^ (string_of_int seq_num));
+        rdt_send_segment msg_parts seq_num)
+      | Some response ->
       let packet_bytes = response.data in
       let packet = Packet.packet_of_bytes packet_bytes in
       let checksum = Packet.calculate_checksum_from_packet packet in
