@@ -5,22 +5,21 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github jubiiz/three_eyelids))
 
-(authors "Author Name")
+(authors "Julien Audet" "Sebastian Reinhardt")
 
-(maintainers "Maintainer Name")
+(maintainers "Julien Audet" "Sebastian Reinhardt")
 
 (license LICENSE)
 
-(documentation https://url/to/documentation)
+(documentation "see the README.md file")
 
 (package
  (name three_eyelids)
- (synopsis "A short synopsis")
- (description "A longer description")
+ (synopsis "An implementation of a Reliable Data Transfer (RDT) protocol.")
+ (description "An implementation of a Reliable Data Transfer (RDT) protocol. Currently 
+ an implementation of the Stop-and-Wait protocol, built on top of UDP.")
  (depends ocaml dune)
  (tags
-  (topics "to describe" your project)))
-
-; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project
+  ("Reliable Data Transfer" RDT "Stop-and-Wait" UDP "Networking" "Computer Networks")))

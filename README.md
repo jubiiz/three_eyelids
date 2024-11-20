@@ -36,3 +36,6 @@ dune exec client
 ```
 dune exec server
 ```
+
+You can then type messages in the client, followed by a newline, and they
+will be sent to the server!
